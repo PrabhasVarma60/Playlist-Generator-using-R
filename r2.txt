@@ -1,0 +1,47 @@
+# Load the tuneR package
+library(tuneR)
+
+# Set the path to your music file
+musicFilePath <- "file path"  # Replace with your actual music file path (with double quotes)
+
+# Define a dictionary mapping moods to music files
+musicLibrary <- list(
+  "happy" = c("paste the song name"),
+  "energetic" = c("paste the song name"),     # Add the song names 
+  "sad" = c("paste the song name")
+)
+
+# Function to generate a playlist based on mood
+generatePlaylist <- function(mood) {
+  mood <- tolower(mood)
+  
+  if (mood %in% names(musicLibrary)) {
+    playlist <- musicLibrary[[mood]]
+    return(playlist)
+  } else {
+    cat("Sorry, no songs found for this mood.")
+    return(NULL)
+  }
+}
+
+# Set the mood to an available mood in the musicLibrary
+userMood <- "energetic"  # Replace with an available mood in the musicLibrary
+playlist <- generatePlaylist(userMood)
+
+# Play a random song from the playlist
+if (!is.null(playlist) && length(playlist) > 0) {
+  random_song <- playlist[1]  # Select the first song for simplicity
+  cat("Playing a random song in the playlist for the mood:\n")
+  cat(random_song, "\n")
+  
+  # Load and play the selected song
+  song_path <- paste0(musicFilePath, random_song)
+  if (file.exists(song_path)) {
+    song <- readMP3(song_path)
+    play(song)
+  } else {
+    cat("The specified song file does not exist.")
+  }
+} else {
+  cat("No songs to play.")
+}
